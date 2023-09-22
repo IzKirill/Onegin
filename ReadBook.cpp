@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys\stat.h>
 #include "ReadBook.h"
 #include "Color.h"
 #include "InputFile.h"
@@ -41,14 +42,13 @@ char** ReadFile (const char filename[], size_t* nlines)
 
     GAssert(text != NULL);
 
-    fseek(text, 0L, SEEK_END);
-    size_t sizefile = ftell(text);            // fstat
-    rewind(text);
+    struct stat buff;
+    fstat (fileno (text), &buff);
 
-    char* buf = (char*) calloc(sizefile+1, sizeof(char));
-    buf[sizefile] = '\n';
+    char* buf = (char*) calloc(buff.st_size+1, sizeof(char));
+    buf[buff.st_size] = '\n';
 
-    fread(buf, sizeof(char), sizefile, text);
+    fread(buf, sizeof(char), buff.st_size, text);
 
     fclose(text);
 

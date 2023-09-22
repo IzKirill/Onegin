@@ -87,9 +87,9 @@ static void SortTwo(char** text5, int (*cmpstrings) (const char *, const char *)
 
 static void SortThree (char** text5, int (*cmpstrings) (const char *, const char *))
 {
-    for (int i = 0; i < 2; i++)
+    for (size_t i = 0; i < 2; i++)
     {
-        for (int j = i+1; j < 3; j++)
+        for (size_t j = i+1; j < 3; j++)
         {
             if (cmpstrings(*(text5+i), *(text5+j)) > 0)
             {
