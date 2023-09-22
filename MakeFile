@@ -1,0 +1,27 @@
+flags = -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Weffc++ -Wmain -Wextra -Wall -g -pipe -fexceptions -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op -Wno-missing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -Werror=vla -D_DEBUG -D_EJUDGE_CLIENT_SIDE
+
+all: OnegMain.o ReadBook.o OnegMenu.o Choice.o Color.o Clear_Buffer.o MyQsortStrings.o StringsFunc.o InputFile.o MyAssert.o GiveAwayFile.o
+	g++ OnegMain.o ReadBook.o OnegMenu.o Choice.o Color.o Clear_Buffer.o MyQsortStrings.o StringsFunc.o InputFile.o MyAssert.o GiveAwayFile.o -o Book
+	./Book 
+OnegMain.o: OnegMain.cpp
+	g++ -c OnegMain.cpp $(flags)
+ReadBook.o: ReadBook.cpp
+	g++ -c ReadBook.cpp $(flags)
+OnegMenu.o: OnegMenu.cpp
+	g++ -c OnegMenu.cpp $(flags)
+Choice.o: Choice.cpp
+	g++ -c Choice.cpp $(flags)
+Color.o: Color.cpp
+	g++ -c Color.cpp $(flags)
+Clear_Buffer.o: Clear_Buffer.cpp
+	g++ -c Clear_Buffer.cpp $(flags)
+MyQsortStrings.o: MyQsortStrings.cpp
+	g++ -c MyQsortStrings.cpp $(flags)
+StringsFunc.o: StringsFunc.cpp
+	g++ -c StringsFunc.cpp $(flags)
+InputFile.o: InputFile.cpp
+	g++ -c InputFile.cpp $(flags)
+MyAssert.o: MyAssert.cpp
+	g++ -c MyAssert.cpp $(flags)
+GiveAwayFile.o: GiveAwayFile.cpp
+	g++ -c GiveAwayFile.cpp $(flags)
