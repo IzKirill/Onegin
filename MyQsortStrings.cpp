@@ -4,80 +4,74 @@
 #include "MyQsotrStrings.h"
 #include "StringsFunc.h"
 
-static void SortThree (char** text5, int (*cmpstrings) (const char *, const char *));
-static void SortTwo (char** text5, int (*cmpstrings) (const char *, const char *));
+static void SortThree (char** text5, ComparType cmpstrings);
+static void SortTwo (char** text5, ComparType cmpstrings);
 
-int sortbegin (const char** BookStrings, const size_t nlines)
+void SortStrings (char** text5, const size_t NumberLines,
+                  ComparType cmpstrings)
 {
-    SortStrings((char**) BookStrings, nlines, Mystrcmp);
-    return 0;
-}
-
-int sortend (const char** BookStrings, const size_t nlines)
-{
-    SortStrings((char**) BookStrings, nlines, MystrcmpEnd);
-    return 0;
-}
-
-void SortStrings (char** text5, const size_t lines,
-                  int (*cmpstrings) (const char *, const char *))
-{
-    if (lines == 0 || lines == 1)
+    if (NumberLines == 0 || NumberLines == 1)
     {
         return;
     }
 
-    size_t left = 0, right = lines-2;
+    size_t Left = 0, Right = NumberLines-2;
 
-    size_t mid = right/2;
+    size_t Mid = Right/2;
 
-    if ((right - left) == 1)
+    if ((Right - Left) == 1)
     {
         SortTwo(text5, cmpstrings);
         return;
     }
-    else if ((right - left) == 2)
+    else if ((Right - Left) == 2)
     {
         SortThree(text5, cmpstrings);
         return;
     }
-    else while (left < right)
+    else
     {
-
-        int i = 0;
-
-        if (cmpstrings(*(text5+left),*(text5+mid)) <= 0 && left != mid)
+        while (Left < Right)
         {
-            left++;
-            i++;
-        }
 
-        if (cmpstrings(*(text5+right),*(text5+mid)) > 0)
-        {
-            right--;
-            i++;
-        }
+            int NumberGoodStings = 0;
 
-        if (i == 0)
-        {
-            if (cmpstrings(*(text5+left),*(text5+mid)) == 0)
+            int ResultCmpLeftMid = cmpstrings(*(text5+Left),*(text5+Mid));
+            int ResultCmpRightMid = cmpstrings(*(text5+Right),*(text5+Mid));
+
+            if (ResultCmpLeftMid <= 0 && Left != Mid)
             {
-                mid = right;
-            }
-            else if (cmpstrings(*(text5+right),*(text5+mid)) == 0)
-            {
-                mid = left;
+                Left++;
+                NumberGoodStings++;
             }
 
-            SwapStrings(text5+left, text5+right);
+            if (ResultCmpRightMid > 0)
+            {
+                Right--;
+                NumberGoodStings++;
+            }
+
+            if (NumberGoodStings == 0)
+            {
+                if (ResultCmpLeftMid == 0)
+                {
+                    Mid = Right;
+                }
+                else if (ResultCmpRightMid == 0)
+                {
+                    Mid = Left;
+                }
+
+                SwapStrings(text5+Left, text5+Right);
+            }
         }
     }
 
-    SortStrings(text5, mid+1, cmpstrings);
-    SortStrings(text5+mid+1, lines-mid-1, cmpstrings);
+    SortStrings(text5, Mid+1, cmpstrings);
+    SortStrings(text5+Mid+1, NumberLines-Mid-1, cmpstrings);
 }
 
-static void SortTwo(char** text5, int (*cmpstrings) (const char *, const char *))
+static void SortTwo(char** text5, ComparType cmpstrings)
 {
     if (cmpstrings(*(text5+0), *(text5+1)) > 0)
     {
@@ -85,7 +79,7 @@ static void SortTwo(char** text5, int (*cmpstrings) (const char *, const char *)
     }
 }
 
-static void SortThree (char** text5, int (*cmpstrings) (const char *, const char *))
+static void SortThree (char** text5, ComparType cmpstrings)
 {
     for (size_t i = 0; i < 2; i++)
     {
