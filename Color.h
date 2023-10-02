@@ -22,8 +22,8 @@ extern HANDLE console;
 #define YELLOW        SetConsoleTextAttribute (console, (0 << 4) | 14)
 #define WHITE         SetConsoleTextAttribute (console, (0 << 4) | 15)
 
-#define printf(args...) do {  printf(args);       \
-                              WHITE;     }        \
+#define WPrintf(args...) do {  printf(args);       \
+                              WHITE;}        \
                               while(0)            \
 
 #endif
