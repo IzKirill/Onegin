@@ -3,20 +3,22 @@
 #include "MyAssert.h"
 #include "Color.h"
 #include "InputFile.h"
+#include "ReadBook.h"
+#include <string.h>
 
-size_t inputbook (char file[])
+size_t InputInfFile (char file[])
 {
     GAssert(file != NULL);
 
     BROWN;
     printf("*---------------------------------------------------------------*\n");
     YELLOW;
-    printf("\tInput name of file and number of lines.\n");
+    WPrintf("\tInput name of file(<30 symbols) and number of lines.\n");
 
-    size_t nlines = 0;
+    size_t NumberLines = 0;
 
     LIGHT_PURPLE;
-    printf("Name of file: ");
+    WPrintf("Name of file: ");
 
     bool flag_exit = 1;
     while (flag_exit)
@@ -29,7 +31,7 @@ size_t inputbook (char file[])
             printf("Input correct name of file!\n");
 
             LIGHT_PURPLE;
-            printf("Name of file: ");
+            WPrintf("Name of file: ");
         }
 
         if (ClearStatusBuffer())
@@ -38,22 +40,31 @@ size_t inputbook (char file[])
             printf("Input only name of file without extra symbols after.\n");
 
             LIGHT_PURPLE;
-            printf("Name of file: ");
+            WPrintf("Name of file: ");
+        }
+
+        else if (strlen(file) <= MaxLenthFileName)
+        {
+            flag_exit = 0;
         }
 
         else
         {
-            flag_exit = 0;
+            LIGHT_RED;
+            printf("Input name file less than 30 symbols, please.\n");
+
+            LIGHT_PURPLE;
+            WPrintf("Name of file: ");
         }
     }
 
     BROWN;
-    printf("Number lines in the book: ");
+    WPrintf("Number lines in the book: ");
 
     flag_exit = 1;
     while (flag_exit)
     {
-        while (scanf("%d", &nlines) != 1)
+        while (scanf("%d", &NumberLines) != 1)
         {
             ClearStatusBuffer();
 
@@ -61,7 +72,7 @@ size_t inputbook (char file[])
             printf("Enter the correct number lines in the book.\n");
 
             BROWN;
-            printf("Number lines in the book: ");
+            WPrintf("Number lines in the book: ");
         }
         if (ClearStatusBuffer())
         {
@@ -69,15 +80,15 @@ size_t inputbook (char file[])
             printf("Input only the number of lines!\n");
 
             BROWN;
-            printf("Number lines in the book: ");
+            WPrintf("Number lines in the book: ");
         }
-        else if (nlines == 0)
+        else if (NumberLines == 0)
         {
             LIGHT_RED;
             printf("Book with zero lines, really?\n");
 
             BROWN;
-            printf("Number lines in the book: ");
+            WPrintf("Number lines in the book: ");
         }
         else
         {
@@ -86,7 +97,7 @@ size_t inputbook (char file[])
     }
 
     GAssert(file != NULL);
-    GAssert(nlines != 0);
+    GAssert(NumberLines != 0);
 
-    return nlines;
+    return NumberLines;
 }

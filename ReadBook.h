@@ -1,7 +1,10 @@
 #ifndef __READBOOK_H__
 #define __READBOOK_H__
 
-char** ReadFile (const char filename[], size_t* nlines);
-char** inputdata (size_t* nlines);
+const int MaxLenthFileName = 30;
+
+char* ScanFile (char filename[], size_t* nlines);
+char** FormsMassiveStrigns (const char filename[], size_t* nlines);
+char** FormsTextData (size_t* nlines);
 
 #endif

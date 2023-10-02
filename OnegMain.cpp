@@ -17,9 +17,9 @@ int main ()
     LIGHT_GREEN;
     printf("Good luck!\n");
 
-    size_t nlines = 0;
+    size_t NumberLines = 0;
 
-    char** BookStrings = inputdata (&nlines);
+    char** BookStrings = FormsTextData (&NumberLines);
 
     if (BookStrings == nullptr)
     {
@@ -29,5 +29,5 @@ int main ()
         return 0;
     }
 
-    return menu(BookStrings, nlines);
+    return Menu(BookStrings, NumberLines);
 }
