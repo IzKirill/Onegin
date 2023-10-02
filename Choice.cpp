@@ -1,30 +1,45 @@
+#include <stdio.h>
 #include "Choice.h"
 #include "Clear_Buffer.h"
 #include "Color.h"
-#include <stdio.h>
 
-int user_choice ()
+size_t user_choice (const size_t NumberChoices)
 {
-    int your_choice = 0, flag_exit = 1;
+    size_t your_choice = 0, flag_exit = 1;
 
     while(flag_exit)
     {
-        while (scanf("%d", &your_choice) != 1 ||
-            (your_choice != 1 && your_choice != 2 && your_choice != 3))
+        while (scanf("%d", &your_choice) != 1 )
         {
             ClearStatusBuffer();
             LIGHT_RED;
-            printf("Please, write a correct number: 1, 2 or 3! \n");
+            WPrintf("Please, write a number!\n");
         }
 
-        if (ClearStatusBuffer())
+        size_t NumberFalls = 0;
+        for (size_t i = 1; i <= NumberChoices; i++)
         {
+            if (your_choice != i)
+                NumberFalls++;
+        }
+
+        if (NumberFalls != NumberChoices - 1)
+        {
+            ClearStatusBuffer();
             LIGHT_RED;
-            printf("Input only number(1, 2 or 3) and only one!\n");
+            WPrintf("Please, write a correct number!!\n");
         }
         else
         {
-            flag_exit = 0;
+            if (ClearStatusBuffer())
+            {
+                LIGHT_RED;
+                WPrintf("Input only number and only one!\n");
+            }
+            else
+            {
+                flag_exit = 0;
+            }
         }
     }
 
