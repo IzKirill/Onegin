@@ -1,6 +1,6 @@
 #ifndef __INPUTFILE_H__
 #define __INPUTFILE_H__
 
-size_t InputInfFile (char file[]);
+size_t InputInfFile (char filename[]);
 
 #endif

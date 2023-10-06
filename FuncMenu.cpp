@@ -1,16 +1,29 @@
 #include <stdio.h>
+#include "OnegMenu.h"
+#include "ReadBook.h"
 #include "Color.h"
 #include "FuncMenu.h"
 #include "Choice.h"
 #include "MyQsotrStrings.h"
 #include "GiveAwayFile.h"
-#include "ReadBook.h"
-#include "OnegMenu.h"
 #include "StringsFunc.h"
 
 void PrintDelemiter ()
 {
     printf("*-------------------------------------------------------------------------*\n");
+}
+
+void PrimaryWords ()
+{
+    BROWN;
+    PrintDelemiter();
+    LIGHT_BLUE;
+    printf("\tHello, this program work with book.\n");
+    LIGHT_GOLYBOI;
+    printf("You can read the book on the console or in the file.\n"
+    "You can sort the strings in the book by the first or last letter.\n");
+    LIGHT_GREEN;
+    printf("Good luck!\n");
 }
 
 void Menu1Title ()
@@ -62,9 +75,11 @@ void Menu4Title ()
     YELLOW;
     printf("\t\tDo you want to continue?\n");
     BLUE;
-    printf("1: continue\t\t");
+    printf("1: continue with this file\t");
+    LIGHT_GREY;
+    printf("2: back to main menu\t");
     RED;
-    WPrintf("2: exit\n");
+    WPrintf("3: exit\n");
 }
 
 int SelectMenuError ()
@@ -75,7 +90,7 @@ int SelectMenuError ()
     return 0;
 }
 
-int Menu1Actions (size_t* MenuNumber, bool* IsConsole)
+int Menu1Actions (size_t* MenuNumber, bool* IsConsole, MassiveStings* MS)
 {
     switch(user_choice(3))
     {
@@ -95,12 +110,14 @@ int Menu1Actions (size_t* MenuNumber, bool* IsConsole)
 
     case(3):
         {
+            DelStruct(MS);
             return 1;
         }
         break;
 
     default:
         {
+            DelStruct(MS);
             SelectChoiceError();
         }
     }
@@ -108,7 +125,7 @@ int Menu1Actions (size_t* MenuNumber, bool* IsConsole)
 }
 
 int Menu2Actions (size_t* MenuNumber, bool* IsConsole,
-                  char** BookStrings, size_t NumberLines)
+                  MassiveStings* MS)
 {
     switch(user_choice(3))
     {
@@ -116,11 +133,11 @@ int Menu2Actions (size_t* MenuNumber, bool* IsConsole,
         {
             if (*IsConsole)
             {
-                ReadBook((char**) BookStrings, NumberLines);
+                OutputText(MS->UnSortedBookStrings, MS->NumberLines);
             }
             else
             {
-                PrintInFile((char**) BookStrings, NumberLines);
+                PrintInFile(MS->UnSortedBookStrings, MS->NumberLines);
             }
             *MenuNumber = 4;
         }
@@ -140,6 +157,7 @@ int Menu2Actions (size_t* MenuNumber, bool* IsConsole,
 
     default:
         {
+            DelStruct(MS);
             SelectChoiceError();
         }
     }
@@ -147,20 +165,20 @@ int Menu2Actions (size_t* MenuNumber, bool* IsConsole,
 }
 
 int Menu3Actions (size_t* MenuNumber, bool* IsConsole,
-                  char** BookStrings, size_t NumberLines)
+                  MassiveStings* MS)
 {
     switch(user_choice(3))
     {
     case(1):
         {
-            SortStrings((char**) BookStrings, NumberLines, Mystrcmp);
+            SortStrings(MS->SortedBookStrings, MS->NumberLines, Mystrcmp);
             if (*IsConsole)
             {
-                ReadBook((char**) BookStrings, NumberLines);
+                OutputText(MS->SortedBookStrings, MS->NumberLines);
             }
             else
             {
-                PrintInFile((char**) BookStrings, NumberLines);
+                PrintInFile(MS->SortedBookStrings, MS->NumberLines);
             }
             *MenuNumber = 4;
         }
@@ -168,14 +186,14 @@ int Menu3Actions (size_t* MenuNumber, bool* IsConsole,
 
     case(2):
         {
-            SortStrings((char**) BookStrings, NumberLines, MystrcmpEnd);
+            SortStrings(MS->SortedBookStrings, MS->NumberLines, MystrcmpEnd);
             if (*IsConsole)
             {
-                ReadBook((char**) BookStrings, NumberLines);
+                OutputText(MS->SortedBookStrings, MS->NumberLines);
             }
             else
             {
-                PrintInFile((char**) BookStrings, NumberLines);
+                PrintInFile(MS->SortedBookStrings, MS->NumberLines);
             }
             *MenuNumber = 4;
         }
@@ -189,31 +207,39 @@ int Menu3Actions (size_t* MenuNumber, bool* IsConsole,
 
     default:
         {
+            DelStruct(MS);
             SelectChoiceError();
         }
     }
     return 0;
 }
 
-int Menu4Actions (size_t* MenuNumber, char** BookStrings, size_t NumberLines)
+int Menu4Actions (size_t* MenuNumber, MassiveStings* MS)
 {
-    switch(user_choice(2))
+    switch(user_choice(3))
     {
     case(1):
         {
-            BookStrings = FormsTextData(&NumberLines);
             *MenuNumber = 1;
         }
         break;
 
     case(2):
         {
+            DelStruct(MS);
+            Menu();
+        }
+        break;
+    case(3):
+        {
+            DelStruct(MS);
             return 1;
         }
         break;
 
     default:
         {
+            DelStruct(MS);
             SelectChoiceError();
         }
     }
